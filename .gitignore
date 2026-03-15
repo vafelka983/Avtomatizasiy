@@ -1,0 +1,35 @@
+# Виртуальное окружение
+venv/
+env/
+ENV/
+venv.bak/
+
+# Файлы Python
+__pycache__/
+*.py[cod]
+*.pyc
+*.pyo
+*.pyd
+.Python
+
+# Базы данных
+*.db
+*.sqlite
+*.sqlite3
+instance/*.db
+
+# Файлы IDE
+.vscode/
+.idea/
+*.swp
+*.swo
+*~
+
+# Логи
+*.log
+logs/
+
+# Файлы конфиденциальной информации
+.env
+*.secret
+config_local.py
