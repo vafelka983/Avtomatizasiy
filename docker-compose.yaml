@@ -1,0 +1,47 @@
+version: '3.8'
+
+services:
+  # Сервис базы данных PostgreSQL
+  db:
+    image: postgres:15
+    container_name: avtomat_db
+    restart: unless-stopped
+    environment:
+      POSTGRES_USER: avtomat_user
+      POSTGRES_PASSWORD: avtomat_password
+      POSTGRES_DB: avtomat_db
+    ports:
+      - "5432:5432"
+    volumes:
+      - postgres_data:/var/lib/postgresql/data  # Volume для сохранения данных БД
+      - ./backups:/backups  # При необходимости можно монтировать папку для бэкапов
+    networks:
+      - avtomat_network
+
+  # Сервис веб-приложения
+  web:
+    build: .
+    container_name: avtomat_web
+    restart: unless-stopped
+    ports:
+      - "5000:5000"
+    environment:
+      - DATABASE_URL=postgresql://avtomat_user:avtomat_password@db:5432/avtomat_db
+      - FLASK_ENV=development
+    volumes:
+      - ./logs:/app/logs  # Volume для логов приложения
+      - ./uploads:/app/uploads  # Volume для загружаемых файлов (если есть)
+    depends_on:
+      - db  # Ждем, пока БД запустится
+    networks:
+      - avtomat_network
+
+# Определение томов (volumes) для постоянного хранения данных [citation:4]
+volumes:
+  postgres_data:
+    driver: local
+
+# Определение сети для взаимодействия контейнеров [citation:10]
+networks:
+  avtomat_network:
+    driver: bridge
