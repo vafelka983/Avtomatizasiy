@@ -1,0 +1,54 @@
+{% extends "base.html" %}
+
+{% block content %}
+<h1 class="mb-4">Средний улов по банкам</h1>
+
+<div class="card mb-4">
+    <div class="card-body">
+        <form method="POST">
+            {{ form.hidden_tag() }}
+            <div class="row">
+                <div class="col-md-4">
+                    <label class="form-label">Дата начала</label>
+                    {{ form.start_date(class="form-control", type="date") }}
+                </div>
+                <div class="col-md-4">
+                    <label class="form-label">Дата окончания</label>
+                    {{ form.end_date(class="form-control", type="date") }}
+                </div>
+                <div class="col-md-4">
+                    <label class="form-label">&nbsp;</label>
+                    <button type="submit" class="btn btn-primary d-block">Показать отчет</button>
+                </div>
+            </div>
+        </form>
+    </div>
+</div>
+
+{% if results %}
+<div class="card">
+    <div class="card-body">
+        <table class="table table-striped">
+            <thead class="table-dark">
+                <tr>
+                    <th>Название банки</th>
+                    <th>Количество рейсов</th>
+                    <th>Средний улов (кг)</th>
+                    <th>Общий улов (кг)</th>
+                </tr>
+            </thead>
+            <tbody>
+                {% for name, trips_count, avg_catch, total_catch in results %}
+                <tr>
+                    <td>{{ name }}</td>
+                    <td>{{ trips_count }}</td>
+                    <td>{{ "%.2f"|format(avg_catch) }}</td>
+                    <td>{{ "%.2f"|format(total_catch) }}</td>
+                </tr>
+                {% endfor %}
+            </tbody>
+        </table>
+    </div>
+</div>
+{% endif %}
+{% endblock %}

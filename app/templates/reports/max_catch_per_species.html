@@ -1,0 +1,58 @@
+{% extends "base.html" %}
+
+{% block content %}
+<h1 class="mb-4" style="color: #ff69b4;">🏆 Максимальный улов по сортам рыбы</h1>
+
+<div class="card mb-4 shadow">
+    <div class="card-header">
+        <h5 class="mb-0">🌸 Выберите период</h5>
+    </div>
+    <div class="card-body">
+        <form method="POST">
+            {{ form.hidden_tag() }}
+            <div class="row">
+                <div class="col-md-4">
+                    <label class="form-label">📅 Дата начала</label>
+                    {{ form.start_date(class="form-control", type="date") }}
+                </div>
+                <div class="col-md-4">
+                    <label class="form-label">📅 Дата окончания</label>
+                    {{ form.end_date(class="form-control", type="date") }}
+                </div>
+                <div class="col-md-4">
+                    <label class="form-label">&nbsp;</label>
+                    <button type="submit" class="btn btn-primary d-block">🌸 Показать отчет</button>
+                </div>
+            </div>
+        </form>
+    </div>
+</div>
+
+{% if results %}
+<div class="card shadow">
+    <div class="card-header">
+        <h5 class="mb-0">✨ Результаты</h5>
+    </div>
+    <div class="card-body">
+        <table class="table table-striped">
+            <thead>
+                <tr>
+                    <th>🐟 Сорт рыбы</th>
+                    <th>🚤 Катер</th>
+                    <th>📊 Улов (кг)</th>
+                </tr>
+            </thead>
+            <tbody>
+                {% for species_name, boat_name, catch in results %}
+                <tr>
+                    <td><span class="badge" style="background: #ffb6c1;">{{ species_name }}</span></td>
+                    <td>{{ boat_name }}</td>
+                    <td><span class="badge" style="background: #dda0dd;">{{ "%.2f"|format(catch) }}</span></td>
+                </tr>
+                {% endfor %}
+            </tbody>
+        </table>
+    </div>
+</div>
+{% endif %}
+{% endblock %}

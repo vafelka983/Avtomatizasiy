@@ -1,0 +1,353 @@
+<!DOCTYPE html>
+<html lang="ru">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Рыболовная флотилия 🌸</title>
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.1.3/dist/css/bootstrap.min.css" rel="stylesheet">
+    <style>
+        :root {
+            --pink-light: #fff0f3;
+            --pink-medium: #ffb6c1;
+            --pink-dark: #ff69b4;
+            --pink-darker: #db7090;
+            --purple-pink: #dda0dd;
+        }
+        
+        body {
+            background-color: #ffe4e9;
+        }
+        
+        .navbar {
+            background: linear-gradient(135deg, #ff9eb5 0%, #ffb3c6 100%) !important;
+            box-shadow: 0 4px 15px rgba(255, 105, 180, 0.3);
+        }
+        
+        .navbar-brand, .nav-link {
+            color: #ffffff !important;
+            font-weight: 500;
+            text-shadow: 2px 2px 4px rgba(255, 105, 180, 0.3);
+        }
+        
+        .navbar-brand:hover, .nav-link:hover {
+            color: #ffe4e9 !important;
+            transform: scale(1.05);
+        }
+        
+        .dropdown-menu {
+            background-color: #fff0f5;
+            border: 2px solid #ffb6c1;
+        }
+        
+        .dropdown-item:hover {
+            background-color: #ffc0cb;
+            color: #ffffff;
+        }
+        
+        .card {
+            border: 2px solid #ffb6c1;
+            border-radius: 20px;
+            box-shadow: 0 8px 20px rgba(255, 182, 193, 0.3);
+            background-color: #fff9fb;
+        }
+        
+        .card-header {
+            background: linear-gradient(135deg, #ffb6c1 0%, #ff9eb5 100%);
+            color: white;
+            border-bottom: 2px solid #ff69b4;
+            border-radius: 18px 18px 0 0 !important;
+            font-weight: bold;
+            text-shadow: 1px 1px 2px rgba(0, 0, 0, 0.1);
+        }
+        
+        .btn-primary {
+            background: linear-gradient(135deg, #ff69b4 0%, #ff1493 100%);
+            border: none;
+            border-radius: 25px;
+            padding: 10px 25px;
+            font-weight: bold;
+            box-shadow: 0 4px 15px rgba(255, 105, 180, 0.4);
+        }
+        
+        .btn-primary:hover {
+            background: linear-gradient(135deg, #ff1493 0%, #ff69b4 100%);
+            transform: translateY(-2px);
+            box-shadow: 0 6px 20px rgba(255, 105, 180, 0.6);
+        }
+        
+        .btn-secondary {
+            background: linear-gradient(135deg, #dda0dd 0%, #d8bfd8 100%);
+            border: none;
+            border-radius: 25px;
+            color: white;
+        }
+        
+        .btn-success {
+            background: linear-gradient(135deg, #98fb98 0%, #90ee90 100%);
+            border: none;
+            border-radius: 25px;
+            color: #2e4e2e;
+            font-weight: bold;
+        }
+        
+        .btn-info {
+            background: linear-gradient(135deg, #b0e0e6 0%, #add8e6 100%);
+            border: none;
+            border-radius: 25px;
+            color: #2e4e6e;
+        }
+        
+        .btn-warning {
+            background: linear-gradient(135deg, #ffdab9 0%, #ffc0cb 100%);
+            border: none;
+            border-radius: 25px;
+            color: #b45f5f;
+        }
+        
+        .btn-danger {
+            background: linear-gradient(135deg, #ffa07a 0%, #f08080 100%);
+            border: none;
+            border-radius: 25px;
+        }
+        
+        .table {
+            background-color: #fff5f8;
+            border-radius: 15px;
+            overflow: hidden;
+            box-shadow: 0 4px 15px rgba(255, 182, 193, 0.2);
+        }
+        
+        .table thead {
+            background: linear-gradient(135deg, #ffb6c1 0%, #ff9eb5 100%);
+            color: white;
+        }
+        
+        .table-striped > tbody > tr:nth-of-type(odd) {
+            background-color: #fff0f5;
+        }
+        
+        .table-striped > tbody > tr:nth-of-type(even) {
+            background-color: #ffffff;
+        }
+        
+        .table-hover tbody tr:hover {
+            background-color: #ffe4ec !important;
+        }
+        
+        .form-control, .form-select {
+            border: 2px solid #ffb6c1;
+            border-radius: 15px;
+            background-color: #fff0f8;
+            transition: all 0.3s;
+        }
+        
+        .form-control:focus, .form-select:focus {
+            border-color: #ff69b4;
+            box-shadow: 0 0 0 0.3rem rgba(255, 105, 180, 0.25);
+            background-color: #fff5fa;
+        }
+        
+        .form-label {
+            color: #b45f8a;
+            font-weight: 600;
+            margin-bottom: 5px;
+        }
+        
+        .alert {
+            border-radius: 20px;
+            border: 2px solid transparent;
+        }
+        
+        .alert-success {
+            background-color: #d4f0d4;
+            border-color: #98fb98;
+            color: #2e6b2e;
+        }
+        
+        .alert-info {
+            background-color: #e0f0ff;
+            border-color: #b0e0e6;
+            color: #4e6b8a;
+        }
+        
+        .alert-warning {
+            background-color: #fff0d4;
+            border-color: #ffdab9;
+            color: #b45f2e;
+        }
+        
+        .alert-danger {
+            background-color: #ffe0e0;
+            border-color: #faa0a0;
+            color: #b45f5f;
+        }
+        
+        .pagination .page-link {
+            background-color: #fff0f5;
+            border: 2px solid #ffb6c1;
+            color: #ff69b4;
+            margin: 0 3px;
+            border-radius: 15px;
+        }
+        
+        .pagination .page-link:hover {
+            background-color: #ffb6c1;
+            color: white;
+        }
+        
+        .badge {
+            border-radius: 12px;
+            padding: 8px 12px;
+            font-weight: 500;
+        }
+        
+        .bg-primary {
+            background: linear-gradient(135deg, #ffb6c1 0%, #ff9eb5 100%) !important;
+        }
+        
+        .bg-success {
+            background: linear-gradient(135deg, #d8bfd8 0%, #dda0dd 100%) !important;
+        }
+        
+        .bg-info {
+            background: linear-gradient(135deg, #b0e0e6 0%, #add8e6 100%) !important;
+        }
+        
+        .bg-warning {
+            background: linear-gradient(135deg, #ffdab9 0%, #ffc0cb 100%) !important;
+            color: #b45f5f;
+        }
+        
+        footer {
+            background: linear-gradient(135deg, #ffb6c1 0%, #ff9eb5 100%);
+            color: white;
+            padding: 20px 0;
+            margin-top: 50px;
+            border-radius: 30px 30px 0 0;
+        }
+        
+        /* Анимации */
+        @keyframes pinkPulse {
+            0% { transform: scale(1); }
+            50% { transform: scale(1.05); }
+            100% { transform: scale(1); }
+        }
+        
+        .navbar-brand {
+            animation: pinkPulse 3s infinite;
+        }
+        
+        /* Розовые ссылки */
+        a {
+            color: #ff69b4;
+            text-decoration: none;
+            transition: color 0.3s;
+        }
+        
+        a:hover {
+            color: #ff1493;
+            text-decoration: underline;
+        }
+        
+        /* Розовые границы */
+        .border {
+            border: 2px solid #ffb6c1 !important;
+        }
+        
+        .rounded {
+            border-radius: 20px !important;
+        }
+        
+        /* Розовые тени */
+        .shadow-sm {
+            box-shadow: 0 2px 8px rgba(255, 182, 193, 0.3) !important;
+        }
+        
+        .shadow {
+            box-shadow: 0 4px 15px rgba(255, 182, 193, 0.4) !important;
+        }
+        
+        .shadow-lg {
+            box-shadow: 0 8px 25px rgba(255, 105, 180, 0.3) !important;
+        }
+    </style>
+</head>
+<body>
+    <nav class="navbar navbar-expand-lg navbar-dark mb-4">
+        <div class="container">
+            <a class="navbar-brand" href="{{ url_for('index') }}">🌸 Рыболовная флотилия</a>
+            <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarNav">
+                <span class="navbar-toggler-icon"></span>
+            </button>
+            <div class="collapse navbar-collapse" id="navbarNav">
+                <ul class="navbar-nav me-auto">
+                    <li class="nav-item dropdown">
+                        <a class="nav-link dropdown-toggle" href="#" role="button" data-bs-toggle="dropdown">
+                            🚤 Катера
+                        </a>
+                        <ul class="dropdown-menu">
+                            <li><a class="dropdown-item" href="{{ url_for('boats_list') }}">Список катеров</a></li>
+                            <li><a class="dropdown-item" href="{{ url_for('add_boat') }}">Добавить катер</a></li>
+                            <li><a class="dropdown-item" href="{{ url_for('boats_catches') }}">Уловы по катерам</a></li>
+                        </ul>
+                    </li>
+                    <li class="nav-item dropdown">
+                        <a class="nav-link dropdown-toggle" href="#" role="button" data-bs-toggle="dropdown">
+                            ⚓ Рейсы
+                        </a>
+                        <ul class="dropdown-menu">
+                            <li><a class="dropdown-item" href="{{ url_for('trips_list') }}">Список рейсов</a></li>
+                            <li><a class="dropdown-item" href="{{ url_for('add_trip') }}">Добавить рейс</a></li>
+                            <li><a class="dropdown-item" href="{{ url_for('add_catch') }}">Добавить улов</a></li>
+                        </ul>
+                    </li>
+                    <li class="nav-item dropdown">
+                        <a class="nav-link dropdown-toggle" href="#" role="button" data-bs-toggle="dropdown">
+                            🗺️ Банки
+                        </a>
+                        <ul class="dropdown-menu">
+                            <li><a class="dropdown-item" href="{{ url_for('grounds_list') }}">Список банок</a></li>
+                            <li><a class="dropdown-item" href="{{ url_for('add_ground') }}">Добавить банку</a></li>
+                        </ul>
+                    </li>
+                    <li class="nav-item dropdown">
+                        <a class="nav-link dropdown-toggle" href="#" role="button" data-bs-toggle="dropdown">
+                            📊 Отчеты
+                        </a>
+                        <ul class="dropdown-menu">
+                            <li><a class="dropdown-item" href="{{ url_for('max_catch_per_species') }}">Макс. улов по сортам</a></li>
+                            <li><a class="dropdown-item" href="{{ url_for('ground_avg_catch') }}">Средний улов по банкам</a></li>
+                            <li><a class="dropdown-item" href="{{ url_for('species_trips') }}">Сорта рыбы и рейсы</a></li>
+                            <li><a class="dropdown-item" href="{{ url_for('species_ground_catch') }}">Улов по сорту и банке</a></li>
+                        </ul>
+                    </li>
+                </ul>
+            </div>
+        </div>
+    </nav>
+
+    <div class="container">
+        {% with messages = get_flashed_messages(with_categories=true) %}
+            {% if messages %}
+                {% for category, message in messages %}
+                    <div class="alert alert-{{ category }} alert-dismissible fade show shadow-sm" role="alert">
+                        {{ message }}
+                        <button type="button" class="btn-close" data-bs-dismiss="alert"></button>
+                    </div>
+                {% endfor %}
+            {% endif %}
+        {% endwith %}
+
+        {% block content %}{% endblock %}
+    </div>
+
+    <footer class="text-center mt-5">
+        <div class="container">
+            <p class="mb-0">🌸 Рыболовная флотилия — всё в розовом цвете! 🌸</p>
+            <small>Сделано с любовью и розовым настроением 💖</small>
+        </div>
+    </footer>
+
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.1.3/dist/js/bootstrap.bundle.min.js"></script>
+</body>
+</html>

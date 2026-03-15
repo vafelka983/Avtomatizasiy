@@ -1,0 +1,61 @@
+{% extends "base.html" %}
+
+{% block content %}
+<h1 class="mb-4">Улов по сорту рыбы и банке</h1>
+
+<div class="card mb-4">
+    <div class="card-body">
+        <form method="POST">
+            {{ form.hidden_tag() }}
+            <div class="row">
+                <div class="col-md-4 mb-3">
+                    <label class="form-label">Сорт рыбы</label>
+                    {{ form.species_id(class="form-select") }}
+                </div>
+                <div class="col-md-4 mb-3">
+                    <label class="form-label">Банка</label>
+                    {{ form.ground_id(class="form-select") }}
+                </div>
+                <div class="col-md-4 mb-3">
+                    <label class="form-label">&nbsp;</label>
+                    <button type="submit" class="btn btn-primary d-block">Показать отчет</button>
+                </div>
+            </div>
+        </form>
+    </div>
+</div>
+
+{% if results %}
+<div class="card">
+    <div class="card-header">
+        <h5>
+            {{ species.name }} на банке "{{ ground.name }}"
+        </h5>
+    </div>
+    <div class="card-body">
+        <table class="table table-striped">
+            <thead class="table-dark">
+                <tr>
+                    <th>ID рейса</th>
+                    <th>Катер</th>
+                    <th>Дата выхода</th>
+                    <th>Дата возвращения</th>
+                    <th>Улов (кг)</th>
+                </tr>
+            </thead>
+            <tbody>
+                {% for trip_id, dep_date, ret_date, boat_name, weight in results %}
+                <tr>
+                    <td>{{ trip_id }}</td>
+                    <td>{{ boat_name }}</td>
+                    <td>{{ dep_date.strftime('%d.%m.%Y') }}</td>
+                    <td>{{ ret_date.strftime('%d.%m.%Y') }}</td>
+                    <td>{{ "%.2f"|format(weight) }}</td>
+                </tr>
+                {% endfor %}
+            </tbody>
+        </table>
+    </div>
+</div>
+{% endif %}
+{% endblock %}

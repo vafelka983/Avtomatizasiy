@@ -1,0 +1,43 @@
+{% extends "base.html" %}
+
+{% block content %}
+<h1 class="mb-4">Сорта рыбы и рейсы</h1>
+
+{% for item in data %}
+<div class="card mb-4">
+    <div class="card-header bg-success text-white">
+        <h4 class="mb-0">{{ item.species }}</h4>
+    </div>
+    <div class="card-body">
+        <table class="table">
+            <thead>
+                <tr>
+                    <th>ID рейса</th>
+                    <th>Катер</th>
+                    <th>Дата выхода</th>
+                    <th>Дата возвращения</th>
+                    <th>Посещено банок</th>
+                    <th>Улов (кг)</th>
+                </tr>
+            </thead>
+            <tbody>
+                {% for trip_id, dep_date, ret_date, boat_name, weight, grounds in item.trips %}
+                <tr>
+                    <td>{{ trip_id }}</td>
+                    <td>{{ boat_name }}</td>
+                    <td>{{ dep_date.strftime('%d.%m.%Y') }}</td>
+                    <td>{{ ret_date.strftime('%d.%m.%Y') }}</td>
+                    <td>{{ grounds }}</td>
+                    <td>{{ "%.2f"|format(weight) }}</td>
+                </tr>
+                {% endfor %}
+            </tbody>
+        </table>
+    </div>
+</div>
+{% else %}
+<div class="alert alert-info">
+    Нет данных об уловах
+</div>
+{% endfor %}
+{% endblock %}

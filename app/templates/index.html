@@ -1,0 +1,100 @@
+{% extends "base.html" %}
+
+{% block content %}
+<div class="row">
+    <div class="col-md-12 text-center mb-5">
+        <h1 class="display-4" style="color: #ff69b4; text-shadow: 3px 3px 6px #ffb6c1;">
+            🌸 Добро пожаловать в розовую флотилию! 🌸
+        </h1>
+        <p class="lead" style="color: #b45f8a;">Система управления рыболовными катерами в самом красивом цвете</p>
+    </div>
+</div>
+
+<div class="row mb-5">
+    <div class="col-md-3">
+        <div class="card text-white text-center">
+            <div class="card-body" style="background: linear-gradient(135deg, #ffb6c1, #ff9eb5); border-radius: 20px;">
+                <h3 class="card-title">🚤</h3>
+                <h5 class="card-title">Катера</h5>
+                <p class="card-text display-4">{{ boats_count }}</p>
+            </div>
+        </div>
+    </div>
+    <div class="col-md-3">
+        <div class="card text-white text-center">
+            <div class="card-body" style="background: linear-gradient(135deg, #dda0dd, #d8bfd8); border-radius: 20px;">
+                <h3 class="card-title">⚓</h3>
+                <h5 class="card-title">Рейсы</h5>
+                <p class="card-text display-4">{{ trips_count }}</p>
+            </div>
+        </div>
+    </div>
+    <div class="col-md-3">
+        <div class="card text-white text-center">
+            <div class="card-body" style="background: linear-gradient(135deg, #b0e0e6, #add8e6); border-radius: 20px;">
+                <h3 class="card-title">🗺️</h3>
+                <h5 class="card-title">Банки</h5>
+                <p class="card-text display-4">{{ grounds_count }}</p>
+            </div>
+        </div>
+    </div>
+    <div class="col-md-3">
+        <div class="card text-white text-center">
+            <div class="card-body" style="background: linear-gradient(135deg, #ffdab9, #ffc0cb); border-radius: 20px;">
+                <h3 class="card-title">🐟</h3>
+                <h5 class="card-title">Сорта рыбы</h5>
+                <p class="card-text display-4">{{ species_count }}</p>
+            </div>
+        </div>
+    </div>
+</div>
+
+<div class="row">
+    <div class="col-md-12">
+        <div class="card shadow">
+            <div class="card-header">
+                <h5 class="mb-0">🌟 Последние рейсы</h5>
+            </div>
+            <div class="card-body">
+                <table class="table table-hover">
+                    <thead>
+                        <tr>
+                            <th>ID</th>
+                            <th>Катер</th>
+                            <th>Дата выхода</th>
+                            <th>Дата возвращения</th>
+                            <th>Улов (кг)</th>
+                            <th>Действия</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        {% for trip in recent_trips %}
+                        <tr>
+                            <td><span class="badge" style="background: #ffb6c1;">{{ trip.id }}</span></td>
+                            <td>{{ trip.boat.name }}</td>
+                            <td>{{ trip.departure_date.strftime('%d.%m.%Y %H:%M') }}</td>
+                            <td>{{ trip.return_date.strftime('%d.%m.%Y %H:%M') }}</td>
+                            <td><span class="badge" style="background: #dda0dd;">{{ "%.2f"|format(trip.total_catch) }}</span></td>
+                            <td>
+                                <a href="{{ url_for('trip_detail', trip_id=trip.id) }}" class="btn btn-sm btn-info">Детали</a>
+                            </td>
+                        </tr>
+                        {% endfor %}
+                    </tbody>
+                </table>
+            </div>
+        </div>
+    </div>
+</div>
+
+<div class="row mt-4">
+    <div class="col-md-12 text-center">
+        <div class="card shadow">
+            <div class="card-body">
+                <h3 style="color: #ff69b4;">💖 Розовое настроение гарантировано! 💖</h3>
+                <p>Все функции приложения работают в нежно-розовом интерфейсе</p>
+            </div>
+        </div>
+    </div>
+</div>
+{% endblock %}

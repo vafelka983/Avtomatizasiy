@@ -1,0 +1,35 @@
+{% extends "base.html" %}
+
+{% block content %}
+<div class="d-flex justify-content-between align-items-center mb-4">
+    <h1>Рыболовные банки</h1>
+    <a href="{{ url_for('add_ground') }}" class="btn btn-primary">➕ Добавить банку</a>
+</div>
+
+<div class="row">
+    {% for ground in grounds %}
+    <div class="col-md-4 mb-3">
+        <div class="card h-100">
+            <div class="card-body">
+                <h5 class="card-title">{{ ground.name }}</h5>
+                {% if ground.latitude and ground.longitude %}
+                <p class="card-text">
+                    <strong>Координаты:</strong> {{ "%.4f"|format(ground.latitude) }}, {{ "%.4f"|format(ground.longitude) }}<br>
+                {% endif %}
+                {% if ground.depth %}
+                    <strong>Глубина:</strong> {{ ground.depth }} м<br>
+                {% endif %}
+                </p>
+                <a href="{{ url_for('boats_above_avg', ground_id=ground.id) }}" class="btn btn-info btn-sm">
+                    Катера с уловом выше среднего
+                </a>
+            </div>
+        </div>
+    </div>
+    {% else %}
+    <div class="col-12">
+        <p class="text-center">Нет добавленных банок</p>
+    </div>
+    {% endfor %}
+</div>
+{% endblock %}

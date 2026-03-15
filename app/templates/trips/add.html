@@ -1,0 +1,93 @@
+{% extends "base.html" %}
+
+{% block content %}
+<div class="row justify-content-center">
+    <div class="col-md-10">
+        <div class="card">
+            <div class="card-header">
+                <h4>Добавление нового рейса</h4>
+            </div>
+            <div class="card-body">
+                <form method="POST" id="tripForm">
+                    {{ form.hidden_tag() }}
+                    
+                    <div class="mb-3">
+                        {{ form.boat_id.label(class="form-label") }}
+                        {{ form.boat_id(class="form-select") }}
+                        {% if form.boat_id.errors %}
+                            {% for error in form.boat_id.errors %}
+                                <div class="text-danger">{{ error }}</div>
+                            {% endfor %}
+                        {% endif %}
+                    </div>
+                    
+                    <div class="row">
+                        <div class="col-md-6 mb-3">
+                            {{ form.departure_date.label(class="form-label") }}
+                            {{ form.departure_date(class="form-control", type="datetime-local") }}
+                        </div>
+                        
+                        <div class="col-md-6 mb-3">
+                            {{ form.return_date.label(class="form-label") }}
+                            {{ form.return_date(class="form-control", type="datetime-local") }}
+                        </div>
+                    </div>
+                    
+                    <h5 class="mt-4 mb-3">Состав команды</h5>
+                    <div id="crew-members">
+                        {% for crew_form in form.crew %}
+                        <div class="crew-member card mb-3">
+                            <div class="card-body">
+                                <div class="row">
+                                    <div class="col-md-5 mb-2">
+                                        <label class="form-label">ФИО</label>
+                                        {{ crew_form.full_name(class="form-control") }}
+                                    </div>
+                                    <div class="col-md-4 mb-2">
+                                        <label class="form-label">Должность</label>
+                                        {{ crew_form.position(class="form-control") }}
+                                    </div>
+                                    <div class="col-md-3 mb-2">
+                                        <label class="form-label">&nbsp;</label>
+                                        <button type="button" class="btn btn-danger d-block remove-crew">Удалить</button>
+                                    </div>
+                                    <div class="col-12">
+                                        <label class="form-label">Адрес</label>
+                                        {{ crew_form.address(class="form-control", rows="2") }}
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                        {% endfor %}
+                    </div>
+                    
+                    <button type="button" class="btn btn-success mb-3" id="add-crew">➕ Добавить члена команды</button>
+                    
+                    <div class="d-grid gap-2">
+                        <button type="submit" class="btn btn-primary">Добавить рейс</button>
+                        <a href="{{ url_for('trips_list') }}" class="btn btn-secondary">Отмена</a>
+                    </div>
+                </form>
+            </div>
+        </div>
+    </div>
+</div>
+
+<script>
+document.getElementById('add-crew').addEventListener('click', function() {
+    const crewDiv = document.querySelector('.crew-member').cloneNode(true);
+    crewDiv.querySelectorAll('input, textarea').forEach(input => input.value = '');
+    document.getElementById('crew-members').appendChild(crewDiv);
+});
+
+document.addEventListener('click', function(e) {
+    if (e.target.classList.contains('remove-crew')) {
+        if (document.querySelectorAll('.crew-member').length > 1) {
+            e.target.closest('.crew-member').remove();
+        } else {
+            alert('Должен быть хотя бы один член команды');
+        }
+    }
+});
+</script>
+{% endblock %}

@@ -1,0 +1,38 @@
+{% extends "base.html" %}
+
+{% block content %}
+<div class="mb-4">
+    <h1>Катера с уловом выше среднего</h1>
+    <h4>Банка: {{ ground.name }}</h4>
+    <a href="{{ url_for('grounds_list') }}" class="btn btn-secondary">← Назад к списку банок</a>
+</div>
+
+{% if boats_data %}
+<div class="table-responsive">
+    <table class="table table-striped">
+        <thead class="table-dark">
+            <tr>
+                <th>Катер</th>
+                <th>Тип</th>
+                <th>Дата рейса</th>
+                <th>Улов (кг)</th>
+            </tr>
+        </thead>
+        <tbody>
+            {% for boat_id, boat_name, boat_type, trip_date, catch_weight in boats_data %}
+            <tr>
+                <td>{{ boat_name }}</td>
+                <td>{{ boat_type or 'н/у' }}</td>
+                <td>{{ trip_date.strftime('%d.%m.%Y') }}</td>
+                <td>{{ "%.2f"|format(catch_weight) }}</td>
+            </tr>
+            {% endfor %}
+        </tbody>
+    </table>
+</div>
+{% else %}
+<div class="alert alert-info">
+    Нет данных о катерах с уловом выше среднего на этой банке
+</div>
+{% endif %}
+{% endblock %}

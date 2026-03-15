@@ -1,0 +1,42 @@
+{% extends "base.html" %}
+
+{% block content %}
+<div class="d-flex justify-content-between align-items-center mb-4">
+    <h1 style="color: #ff69b4;">🚤 Список катеров</h1>
+    <a href="{{ url_for('add_boat') }}" class="btn btn-primary">➕ Добавить катер</a>
+</div>
+
+<div class="row">
+    {% for boat in boats %}
+    <div class="col-md-4 mb-3">
+        <div class="card h-100 shadow">
+            <div class="card-header">
+                <h5 class="card-title mb-0">{{ boat.name }}</h5>
+            </div>
+            <div class="card-body">
+                <h6 class="card-subtitle mb-2" style="color: #b45f8a;">{{ boat.boat_type or 'Тип не указан' }}</h6>
+                <p class="card-text">
+                    <span class="badge" style="background: #ffb6c1;">⚖️ Водоизмещение: {{ boat.displacement or 'н/д' }} т</span><br>
+                    <span class="badge mt-2" style="background: #dda0dd;">📅 Год постройки: {{ boat.build_date.strftime('%Y') if boat.build_date else 'н/д' }}</span><br>
+                    <span class="badge mt-2" style="background: #b0e0e6;">⚓ Всего рейсов: {{ boat.trips|length }}</span>
+                </p>
+            </div>
+            <div class="card-footer" style="background: #fff0f5;">
+                <div class="btn-group" role="group">
+                    <a href="{{ url_for('edit_boat', boat_id=boat.id) }}" class="btn btn-warning btn-sm">✏️ Редактировать</a>
+                    <form action="{{ url_for('delete_boat', boat_id=boat.id) }}" method="post" class="d-inline" onsubmit="return confirm('Удалить катер?')">
+                        <button type="submit" class="btn btn-danger btn-sm">🗑️ Удалить</button>
+                    </form>
+                </div>
+            </div>
+        </div>
+    </div>
+    {% else %}
+    <div class="col-12">
+        <div class="alert alert-info text-center">
+            Нет добавленных катеров. Самое время добавить первый! 🌸
+        </div>
+    </div>
+    {% endfor %}
+</div>
+{% endblock %}

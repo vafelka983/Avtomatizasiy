@@ -1,0 +1,88 @@
+{% extends "base.html" %}
+
+{% block content %}
+<div class="mb-4">
+    <h1>Детали рейса #{{ trip.id }}</h1>
+    <a href="{{ url_for('trips_list') }}" class="btn btn-secondary">← Назад к списку</a>
+    <a href="{{ url_for('add_catch') }}" class="btn btn-success">➕ Добавить улов</a>
+</div>
+
+<div class="row">
+    <div class="col-md-6">
+        <div class="card mb-3">
+            <div class="card-header">
+                <h5>Информация о рейсе</h5>
+            </div>
+            <div class="card-body">
+                <p><strong>Катер:</strong> {{ trip.boat.name }}</p>
+                <p><strong>Дата выхода:</strong> {{ trip.departure_date.strftime('%d.%m.%Y %H:%M') }}</p>
+                <p><strong>Дата возвращения:</strong> {{ trip.return_date.strftime('%d.%m.%Y %H:%M') }}</p>
+                <p><strong>Продолжительность:</strong> {{ ((trip.return_date - trip.departure_date).days) }} дней</p>
+                <p><strong>Общий улов:</strong> {{ "%.2f"|format(trip.total_catch) }} кг</p>
+            </div>
+        </div>
+    </div>
+    
+    <div class="col-md-6">
+        <div class="card mb-3">
+            <div class="card-header">
+                <h5>Команда</h5>
+            </div>
+            <div class="card-body">
+                <table class="table">
+                    <thead>
+                        <tr>
+                            <th>ФИО</th>
+                            <th>Должность</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        {% for member in trip.crew %}
+                        <tr>
+                            <td>{{ member.full_name }}</td>
+                            <td>{{ member.position }}</td>
+                        </tr>
+                        {% endfor %}
+                    </tbody>
+                </table>
+            </div>
+        </div>
+    </div>
+</div>
+
+<div class="card">
+    <div class="card-header">
+        <h5>Посещенные банки и улов</h5>
+    </div>
+    <div class="card-body">
+        {% for visit in trip.ground_visits %}
+        <div class="mb-3 p-3 border rounded">
+            <h6>{{ visit.ground.name }}</h6>
+            <p>
+                <strong>Прибытие:</strong> {{ visit.arrival_date.strftime('%d.%m.%Y %H:%M') }}<br>
+                <strong>Отбытие:</strong> {{ visit.departure_date.strftime('%d.%m.%Y %H:%M') }}<br>
+                <strong>Качество:</strong> {{ visit.quality }}
+            </p>
+            <table class="table table-sm">
+                <thead>
+                    <tr>
+                        <th>Сорт рыбы</th>
+                        <th>Вес (кг)</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    {% for catch in visit.catches %}
+                    <tr>
+                        <td>{{ catch.species.name }}</td>
+                        <td>{{ "%.2f"|format(catch.weight) }}</td>
+                    </tr>
+                    {% endfor %}
+                </tbody>
+            </table>
+        </div>
+        {% else %}
+        <p class="text-center">Нет данных о посещении банок</p>
+        {% endfor %}
+    </div>
+</div>
+{% endblock %}

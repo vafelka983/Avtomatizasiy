@@ -1,0 +1,57 @@
+{% extends "base.html" %}
+
+{% block content %}
+<h1 class="mb-4" style="color: #ff69b4;">📊 Уловы по катерам</h1>
+
+{% for boat_data in result %}
+<div class="card mb-4 shadow">
+    <div class="card-header">
+        <h4 class="mb-0">🚤 {{ boat_data.boat_name }} <small style="font-size: 0.8rem;">({{ boat_data.boat_type or 'тип не указан' }})</small></h4>
+    </div>
+    <div class="card-body">
+        {% if boat_data.trips %}
+            {% for trip in boat_data.trips %}
+            <div class="mb-3 p-3 border rounded" style="border-color: #ffb6c1 !important;">
+                <div class="row">
+                    <div class="col-md-6">
+                        <h5 style="color: #b45f8a;">📅 Рейс от {{ trip.departure.strftime('%d.%m.%Y %H:%M') }}</h5>
+                        <p><span class="badge" style="background: #dda0dd;">Возвращение: {{ trip.return.strftime('%d.%m.%Y %H:%M') }}</span></p>
+                        <p><span class="badge" style="background: #ffb6c1;">Общий улов: {{ "%.2f"|format(trip.total_catch) }} кг</span></p>
+                    </div>
+                    <div class="col-md-6">
+                        {% if trip.catches_by_species %}
+                        <h6 style="color: #b45f8a;">🐟 Улов по сортам:</h6>
+                        <table class="table table-sm table-bordered">
+                            <thead style="background: #ffe4ec;">
+                                <tr>
+                                    <th>Сорт рыбы</th>
+                                    <th>Вес (кг)</th>
+                                </tr>
+                            </thead>
+                            <tbody>
+                                {% for species_name, weight in trip.catches_by_species %}
+                                <tr>
+                                    <td>{{ species_name }}</td>
+                                    <td>{{ "%.2f"|format(weight) }}</td>
+                                </tr>
+                                {% endfor %}
+                            </tbody>
+                        </table>
+                        {% else %}
+                        <p class="text-muted">Нет данных об улове</p>
+                        {% endif %}
+                    </div>
+                </div>
+            </div>
+            {% endfor %}
+        {% else %}
+            <p class="text-center text-muted">У этого катера пока нет рейсов</p>
+        {% endif %}
+    </div>
+</div>
+{% else %}
+<div class="alert alert-info text-center">
+    Нет данных о катерах 🌸
+</div>
+{% endfor %}
+{% endblock %}
